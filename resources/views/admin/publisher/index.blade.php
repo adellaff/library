@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('header', 'Home')
+@section('header', 'Publisher')
 @section('content')
-ini adalah admin
+ini adalah publisher
 @endsection
