@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="{{ asset('assets/dist/css/adminlte.min.css')}}">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="{{ asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+   @yield('css')
   </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -219,7 +220,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('catalog')}}" class="nav-link {{request()->is('catalog') ? 'active' : ''}}">
+            <a href="{{url('catalogs')}}" class="nav-link {{request()->is('catalog') ? 'active' : ''}}">
               <i class="nav-icon fas fa-folder"></i>
               <p>
                 Catalog
@@ -227,7 +228,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('author')}}" class="nav-link {{request()->is('author') ? 'active' : ''}}">
+            <a href="{{url('authors')}}" class="nav-link {{request()->is('author') ? 'active' : ''}}">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Author
@@ -235,7 +236,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('book')}}" class="nav-link {{request()->is('book') ? 'active' : ''}}">
+            <a href="{{url('books')}}" class="nav-link {{request()->is('book') ? 'active' : ''}}">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Book
@@ -243,7 +244,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('member')}}" class="nav-link {{request()->is('member') ? 'active' : ''}}">
+            <a href="{{url('members')}}" class="nav-link {{request()->is('member') ? 'active' : ''}}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Member
@@ -251,7 +252,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('publisher')}}" class="nav-link {{request()->is('publisher') ? 'active' : ''}}">
+            <a href="{{url('publishers')}}" class="nav-link {{request()->is('publisher') ? 'active' : ''}}">
               <i class="nav-icon fas fa-folder"></i>
               <p>
                 Publisher
@@ -328,6 +329,11 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('assets/dist/js/adminlte.min.js')}}"></script>
 
+<script src="
+https://cdn.jsdelivr.net/npm/vue-axios@3.5.2/dist/vue-axios.esm.min.js
+"></script>
+<script src="https://unpkg.com/vue@3"></script>
+@yield('js')
 </body>
 </html>
 
