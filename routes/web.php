@@ -31,7 +31,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/catalog/{id}', [CatalogController::class, 'index'])->name('catalog');
 
 
-Route::get('/authors', [AuthorController::class, 'index'])->name('authors');
+
+Route::resource('/authors', App\Http\Controllers\AuthorController::class);
 Route::get('/books', [BookController::class, 'index'])->name('books');
 Route::get('/members', [MemberController::class, 'index'])->name('members');
 Route::get('/publishers', [PublisherController::class, 'index'])->name('publishers');

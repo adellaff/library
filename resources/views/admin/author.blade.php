@@ -28,19 +28,37 @@
                                 <th>Email</th>
                                 <th>Phone Number</th>
                                 <th>Address</th>
-                                <th>Created at</th>
+                                {{-- <th>Created at</th> --}}
                                 <th class="text-right">Action</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            @foreach($authors as $key => $author)
+                            <tr>
+                                <td>{{$key+1}}</td>
+                                <td>{{$author->name}}</td>
+                                <td>{{$author->email}}</td>
+                                <td>{{$author->phone_number}}</td>
+                                <td>{{$author->address}}</td>
+                                <td class="text-right">
+                                    <a href="#" @click="editData({{ $author }})" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="#" @click="deleteData({{ $author->id }})" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    
+    {{-- modal  --}}
     <div class="modal fade" id="modal-default" ref="modal">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" :action="!editStatus ? actionUrl : actionUrl + '/' + data.id" autocomplete="off" @submit="submitForm">
+                {{-- <form method="post" :action="!editStatus ? actionUrl : actionUrl + '/' + data.id" autocomplete="off" @submit="submitForm"> --}}
+                    <form action="{{url('authors')}}" method="post">
                     <div class="modal-header">
 
                         <h4 class="modal-title">Author</h4>
@@ -86,7 +104,7 @@
 </div>
 @endsection
 
-@section('js')
+{{-- @section('js')
 <!-- DataTables  & Plugins -->
 <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
@@ -101,27 +119,64 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 {{-- yajra datatable --}}
+
+@section('js')
 <script type="text/javascript">
-    var actionUrl = '{{ url ('authors') }}';
-    var apiUrl = '{{ 'api/authors' }}';
+    // var actionUrl = '{{ url ('authors') }}';
+    // var apiUrl = '{{ 'api/authors' }}';
 
-    var columns = [
-        {data: 'DT_RowIndex', class: 'text-center', orderable:true},
-        {data: 'name', class: 'text-center', orderable:true},
-        {data: 'email', class: 'text-center', orderable:false},
-        {data: 'phone_number', class: 'text-center', orderable:false},
-        {data: 'address', class: 'text-center', orderable:false},
-        {data: 'date', class: 'text-center', orderable:false},
-        {render: function(index, row, data, meta){
-            return `
-                <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})">Edit</a>
-                <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id})">Delete</a>
-                `;
-        }, ordertable:false, width:'200px', class: 'text-center'},
-    ];
+    // var columns = [
+    //     {data: 'DT_RowIndex', class: 'text-center', orderable:true},
+    //     {data: 'name', class: 'text-center', orderable:true},
+    //     {data: 'email', class: 'text-center', orderable:false},
+    //     {data: 'phone_number', class: 'text-center', orderable:false},
+    //     {data: 'address', class: 'text-center', orderable:false},
+    //     {data: 'date', class: 'text-center', orderable:false},
+    //     {render: function(index, row, data, meta){
+    //         return `
+    //             <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})">Edit</a>
+    //             <a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id})">Delete</a>
+    //             `;
+    //     }, ordertable:false, width:'200px', class: 'text-center'},
+    // ];
+    var controller = new Vue ({
+        el:'#controller',
+        data: {
+            data : {},
+            actionUrl : '{{ url ('authors') }}',
+            editStatus : false 
+        },
+        mounted: function() {
+
+        },
+        methods: {
+            addData() {
+                this.data = {}
+                this.actionUrl = '{{ url('authors') }}';
+                this.editStatus = false;
+                $('#modal-default').modal();
+            },
+            editData(data) {
+                this.data = data;
+                this.actionUrl = '{{ url('authors') }}'+'/'+data.id;
+                this.editStatus = true;
+                $('#modal-default').modal();
+            },
+            deleteData(id) {
+                this.actionUrl = '{{ url('authors') }}'+'/'+id;
+                if(confirm("Are you sure ?")) {
+                    axios.post(this.actionUrl, {_method: 'DELETE'}).then(response=> {
+                        location.reload();
+                    });
+                }
+            }
+
+        }
+
+    });
 </script>
-<script src="{{ asset('js/data.js') }}"></script>
-
+{{-- <script src="{{ asset('js/data.js') }}"></script> --}}
+@endsection
 {{-- datatables --}}
 {{-- <script type="text/javascript">
     $(function () {
@@ -167,5 +222,5 @@ CRUD Vue JS
         }
     });
 </script> --}}
-@endsection
+{{-- @endsection --}}
 

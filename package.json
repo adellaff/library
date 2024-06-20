@@ -13,5 +13,10 @@
         "sass": "^1.56.1",
         "vite": "^4.0.0",
         "vue": "^3.2.37"
+    },
+    "dependencies": {
+        "datatables.net": "^2.0.8",
+        "datatables.net-bs4": "^2.0.8",
+        "jquery": "^3.7.1"
     }
 }

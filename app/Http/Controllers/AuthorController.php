@@ -4,15 +4,41 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-        return view('admin.author.index');
+        $authors = Author::all();
+        // return $catalogs;
+        return view('admin.author', compact('authors'));
+    }
+
+    public function api ()
+    {
+        $authors = Author::all();
+
+        // udah date
+        // foreach ($authors as $key => $author) {
+        //     $author->date = convert_date($author->created_at);
+        // }
+
+
+        // $datatables = datatables()->of($authors)
+        //                     ->addColumn('date', function($author){
+        //                         return convert_date($author->created_at);
+        //                     })->addIndexColumn();
+
+        // return $datatables->make(true); 
     }
 
     /**
@@ -28,7 +54,20 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //  validasi data
+        
+         $this->validate($request,[
+            'name' => ['required'],
+            'email' => ['required'],
+            'phone_number' => ['required'],
+            'address' => ['required'],
+            ]);
+    
+            Author::create($request->all());
+
+            return redirect('authors');
+
+        // return $request;
     }
 
     /**
@@ -52,7 +91,16 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        //
+        $this->validate($request,[
+            'name' => ['required'],
+            'email' => ['required'],
+            'phone_number' => ['required'],
+            'address' => ['required'],
+            ]);
+    
+            $author->update($request->all());
+                
+            return redirect('authors');
     }
 
     /**
@@ -60,6 +108,6 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        $author->delete();
     }
 }
