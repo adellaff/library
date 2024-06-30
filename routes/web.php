@@ -32,11 +32,17 @@ Route::get('/catalog/{id}', [CatalogController::class, 'index'])->name('catalog'
 
 
 
-Route::resource('/authors', App\Http\Controllers\AuthorController::class);
-Route::get('/books', [BookController::class, 'index'])->name('books');
-Route::get('/members', [MemberController::class, 'index'])->name('members');
-Route::get('/publishers', [PublisherController::class, 'index'])->name('publishers');
+Route::resource('/authors', AuthorController::class);
+Route::get('/api/authors', [AuthorController::class, 'api'])->name('author.api');
 
+
+Route::resource('/publishers', PublisherController::class);
+Route::get('/api/publishers', [PublisherController::class,'api'])->name('publisher.api');
+
+Route::resource('books', BookController::class);
+Route::get('/api/books', [BookController::class, 'api'])->name('book.api');
+
+Route::get('/members', [MemberController::class, 'index'])->name('members');
 Route::get('/catalogs', [CatalogController::class, 'index'])->name('catalogs');
 Route::get('/catalogs/create', [CatalogController::class, 'create'])->name('catalog.create');
 Route::post('/catalogs', [CatalogController::class, 'store'])->name('catalog.create');
